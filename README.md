@@ -1,5 +1,7 @@
 # PokedexCLI
 
+A REPL-style Pokedex application that uses the [PokéAPI](https://pokeapi.co) to fetch data about Pokémon
+
 ## Usage
 
 - `go build && ./pokedexcli` will:
