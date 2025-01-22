@@ -2,6 +2,9 @@
 
 ## Usage
 
+- `go build && ./pokedexcli` will:
+    - Compile the source code into an executable binary
+    - Run the generated binary
 - `go test ./...` will:
     - Run unit tests
 
