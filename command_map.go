@@ -12,7 +12,7 @@ func commandMap(config *Config) error {
 		return errors.New("You're on the last page")
 	}
 
-	areas, err := api.GetMap(*config.Next)
+	areas, err := api.GetMap(*config.Next, config.Cache)
 
 	if err != nil {
 		return err
@@ -33,7 +33,7 @@ func commandMapB(config *Config) error {
 		return errors.New("You're on the first page")
 	}
 
-	areas, err := api.GetMap(*config.Previous)
+	areas, err := api.GetMap(*config.Previous, config.Cache)
 
 	if err != nil {
 		return err

@@ -1,9 +1,10 @@
 package api
 
 import (
-	"encoding/json"
 	"io"
 	"net/http"
+
+	"github.com/taseo/pokedexcli/internal/cache"
 )
 
 type LocationAreas struct {
@@ -16,8 +17,14 @@ type LocationAreas struct {
 	} `json:"results"`
 }
 
-func GetMap(url string) (LocationAreas, error) {
+func GetMap(url string, cache *cache.Cache) (LocationAreas, error) {
 	areas := LocationAreas{}
+
+	v, ok := cache.Get(url)
+
+	if ok {
+		return ParseData[LocationAreas](v, &areas)
+	}
 
 	res, err := http.Get(url)
 
@@ -27,7 +34,7 @@ func GetMap(url string) (LocationAreas, error) {
 
 	body, err := io.ReadAll(res.Body)
 
-	res.Body.Close()
+	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
 		return areas, err
@@ -37,11 +44,7 @@ func GetMap(url string) (LocationAreas, error) {
 		return areas, err
 	}
 
-	err = json.Unmarshal(body, &areas)
+	cache.Add(url, body)
 
-	if err != nil {
-		return areas, err
-	}
-
-	return areas, nil
+	return ParseData[LocationAreas](body, &areas)
 }

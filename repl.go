@@ -64,10 +64,14 @@ func startRepl(config *Config) {
 			continue
 		}
 
+		fmt.Println("")
+
 		err := command.callback(config)
 
 		if err != nil {
 			fmt.Println(err)
 		}
+
+		fmt.Println("")
 	}
 }
