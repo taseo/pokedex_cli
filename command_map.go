@@ -7,12 +7,12 @@ import (
 	"github.com/taseo/pokedexcli/internal/api"
 )
 
-func commandMap(config *Config) error {
+func commandMap(config *Config, arg string) error {
 	if config.Next == nil {
 		return errors.New("You're on the last page")
 	}
 
-	areas, err := api.GetMap(*config.Next, config.Cache)
+	areas, err := api.PokeApiGet[api.LocationAreas](*config.Next, config.Cache)
 
 	if err != nil {
 		return err
@@ -28,12 +28,12 @@ func commandMap(config *Config) error {
 	return nil
 }
 
-func commandMapB(config *Config) error {
+func commandMapB(config *Config, arg string) error {
 	if config.Previous == nil {
 		return errors.New("You're on the first page")
 	}
 
-	areas, err := api.GetMap(*config.Previous, config.Cache)
+	areas, err := api.PokeApiGet[api.LocationAreas](*config.Previous, config.Cache)
 
 	if err != nil {
 		return err

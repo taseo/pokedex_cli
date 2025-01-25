@@ -10,7 +10,7 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(config *Config) error
+	callback    func(config *Config, arg string) error
 }
 
 var commands map[string]cliCommand
@@ -23,23 +23,28 @@ func startRepl(config *Config) {
 	commands = map[string]cliCommand{
 		"help": {
 			name:        "help",
-			description: "Displays a help message",
+			description: "Displays help message",
 			callback:    commandHelp,
 		},
 		"exit": {
 			name:        "exit",
-			description: "Exit the Pokedex",
+			description: "Exits the Pokedex",
 			callback:    commandExit,
 		},
 		"map": {
 			name:        "map",
-			description: "Displays names of 20 location areas. Each subsequent call to map displays the next 20 locations",
+			description: "Displays the names of 20 location areas. Each subsequent call to 'map' shows the next 20 locations",
 			callback:    commandMap,
 		},
 		"mapb": {
 			name:        "mapb",
-			description: "Displays names of 20 location areas. Each subsequent call to mapb displays the previous 20 locations",
+			description: "Displays the names of 20 location areas. Each subsequent call to 'mapb' shows the previous 20 locations",
 			callback:    commandMapB,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Explores an area and returns the Pokémon found there. Usage: explore <area-name>",
+			callback:    commandExplore,
 		},
 	}
 
@@ -64,9 +69,15 @@ func startRepl(config *Config) {
 			continue
 		}
 
+		arg := ""
+
+		if len(input) > 1 {
+			arg = input[1]
+		}
+
 		fmt.Println("")
 
-		err := command.callback(config)
+		err := command.callback(config, arg)
 
 		if err != nil {
 			fmt.Println(err)
