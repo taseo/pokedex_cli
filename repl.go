@@ -56,6 +56,11 @@ func startRepl(config *Config) {
 			description: "Displays details about a Pokémon if it was caught before. Useage: inspect <pokémon-name>",
 			callback:    commandInspect,
 		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "Displays list of all the names of the Pokémon that has been caught",
+			callback:    commandPokedex,
+		},
 	}
 
 	scanner := bufio.NewScanner(os.Stdin)
