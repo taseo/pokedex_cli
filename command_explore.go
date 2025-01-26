@@ -1,12 +1,17 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/taseo/pokedexcli/internal/api"
 )
 
 func commandExplore(config *Config, arg string) error {
+	if arg == "" {
+		return errors.New("Area name was not provided. Usage: explore <area-name>")
+	}
+
 	fmt.Printf("Exploring %s ...\n", arg)
 
 	url := "https://pokeapi.co/api/v2/location-area/" + arg
